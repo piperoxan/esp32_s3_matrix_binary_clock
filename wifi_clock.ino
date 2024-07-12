@@ -1,12 +1,9 @@
 #include "ws_grav.h"
-#include "ws_btn.h"
 #include "ws_wifi.h"
 #include "ws_sntp.h"
 #include "ws_clock.h"
 
 
-String t__time;
-struct tm *t_time;
 //一个时钟, 通过wifi校时
 void setup() {
 
@@ -17,16 +14,15 @@ void setup() {
   Conn_wifi();
   printf("prepare ntp");
   SntpInit();
-  printf("prepare sync time");
 }
 
 void loop() {
 
-  QMI8658_Loop();
+  QMI8658_Loop(); //接收三轴传感器数据
   delay(1000);
-  set_time(ntptime());  
-  set_Clock();
-  rotal_Leds(rota());
+  set_time(ntptime());  //获取ntp时间
+  set_Clock(); //设置时间
+  rotal_Leds(rota());//判定是否需要旋转点阵
   // fake_time();
-  RGB_Leds();
+  RGB_Leds();//亮
 }

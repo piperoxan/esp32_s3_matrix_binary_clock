@@ -1,7 +1,7 @@
 #include <cstdlib>
 // #include <algorithm>
 #include "ws_clock.h"
-static uint16_t clock_color = Color(0, 2, 0);  //灯泡亮度和颜色控制
+static uint32_t clock_color = Color(10, 10, 10);  //灯泡亮度和颜色控制
 Adafruit_NeoMatrix Matrix = Adafruit_NeoMatrix(8, 8, RGB_Control_PIN,
                                                NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + NEO_MATRIX_PROGRESSIVE,
                                                NEO_RGB + NEO_KHZ800);
@@ -12,7 +12,7 @@ void Matrix_Init() {
   Matrix.begin();
   Matrix.setTextWrap(false);
   Matrix.setBrightness(40);
-  Matrix.setTextColor(Matrix.Color(0, 30, 0));
+  Matrix.setTextColor(Matrix.Color(30, 30, 30));
   MatrixWidth = Matrix.width();
 }
 static uint32_t Color(uint8_t r, uint8_t g, uint8_t b) {
@@ -67,22 +67,19 @@ void RGB_Leds() {
   Matrix.show();
 }
 void set_wifistatus_ok() {  //wifi ok 显示绿色
-  uint16_t color = Color(0, 10, 0);
   // printf("color green :%d", color);
-  Real_Data[0][0] = color;
+  Real_Data[0][0] = Color(0, 10, 0);
 }
 void set_wifistatus_err() {  //wifi err 显示红色
-  uint16_t color = Color(10, 0, 0);
   // printf("color red :%d", color);
-  Real_Data[0][0] = color;
+  Real_Data[0][0] = Color(10, 0, 0);
 }
 void set_ntp_ok() {  //wifi ok 显示绿色
-  uint16_t color = Color(0, 10, 0);
-  Real_Data[0][1] = color;
+  Real_Data[0][1] = Color(0, 10, 0);
 }
 void set_ntp_err() {  //wifi err 显示红色
-  uint16_t color = Color(10, 0, 0);
-  Real_Data[0][1] = color;
+
+  Real_Data[0][1] = Color(10, 0, 0);
 }
 static uint8_t matrix_copy_row, matrix_copy_col;
 static void matrix_copy() {

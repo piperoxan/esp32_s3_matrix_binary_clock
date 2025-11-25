@@ -12,7 +12,7 @@
 // struct LED{
 //   uint8_t color[3];
 // };
-static uint16_t Show_Data[8][8], Real_Data[8][8];
+static uint16_t Show_Data[8][8], Real_Data[8][8], rotation_tmp[8][8];
 static uint32_t Color(uint8_t r, uint8_t g, uint8_t b);
 static bool Hour[5][2];
 static bool Min[5][2];
@@ -21,7 +21,7 @@ static void matrix_copy();
 void RGB_Leds();
 void Matrix_Init();
 void fake_time();
-void rotal_Leds(Direction dir);
+void rotal_Leds(uint8_t dir);
 void set_wifistatus_ok();
 void set_wifistatus_err();
 void set_ntp_ok();
@@ -30,6 +30,6 @@ static void rotateSquareMatrix();
 static void set_hour(uint8_t hour);
 static void set_min(uint8_t min);
 static void set_sec(uint8_t sec);
-void set_time(String time);
-void set_Clock();
+// void set_time(String time);
+void set_Clock(uint8_t t_hour,uint8_t t_min,uint8_t t_sec);
 static void binary_pixel(uint8_t num, bool time[][2]);

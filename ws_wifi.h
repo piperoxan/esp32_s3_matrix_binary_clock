@@ -1,2 +1,3 @@
 #include "WiFi.h"
-void Conn_wifi();
+void Wifi_On();
+void Wifi_Off();

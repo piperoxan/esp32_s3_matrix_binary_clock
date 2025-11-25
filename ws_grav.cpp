@@ -12,7 +12,7 @@ SensorQMI8658 QMI;
 IMUdata Accel;
 IMUdata Gyro;
 
-Direction dir;
+// Direction dir;
 
 
 void QMI8658_Init() {
@@ -29,13 +29,13 @@ void QMI8658_Init() {
   QMI.configAccelerometer(
     SensorQMI8658::ACC_RANGE_4G,    // ACC_RANGE_2G / ACC_RANGE_4G / ACC_RANGE_8G / ACC_RANGE_16G
     SensorQMI8658::ACC_ODR_1000Hz,  // ACC_ODR_1000H / ACC_ODR_500Hz / ACC_ODR_250Hz / ACC_ODR_125Hz / ACC_ODR_62_5Hz / ACC_ODR_31_25Hz / ACC_ODR_LOWPOWER_128Hz / ACC_ODR_LOWPOWER_21Hz / ACC_ODR_LOWPOWER_11Hz / ACC_ODR_LOWPOWER_3Hz
-    SensorQMI8658::LPF_MODE_0,      //LPF_MODE_0 (2.66% of ODR) / LPF_MODE_1 (3.63% of ODR) / LPF_MODE_2 (5.39% of ODR) / LPF_MODE_3 (13.37% of ODR)
-    true);                          // selfTest enable
+    SensorQMI8658::LPF_MODE_0       //LPF_MODE_0 (2.66% of ODR) / LPF_MODE_1 (3.63% of ODR) / LPF_MODE_2 (5.39% of ODR) / LPF_MODE_3 (13.37% of ODR)
+  );                                // selfTest enable
   QMI.configGyroscope(
     SensorQMI8658::GYR_RANGE_64DPS,  // GYR_RANGE_16DPS / GYR_RANGE_32DPS / GYR_RANGE_64DPS / GYR_RANGE_128DPS / GYR_RANGE_256DPS / GYR_RANGE_512DPS / GYR_RANGE_1024DPS
     SensorQMI8658::GYR_ODR_896_8Hz,  // GYR_ODR_7174_4Hz / GYR_ODR_3587_2Hz / GYR_ODR_1793_6Hz / GYR_ODR_896_8Hz / GYR_ODR_448_4Hz / GYR_ODR_224_2Hz / GYR_ODR_112_1Hz / GYR_ODR_56_05Hz / GYR_ODR_28_025H
-    SensorQMI8658::LPF_MODE_3,       // LPF_MODE_0 (2.66% of ODR) / LPF_MODE_1 (3.63% of ODR) / LPF_MODE_2 (5.39% of ODR) / LPF_MODE_3 (13.37% of ODR)
-    true);                           // selfTest enable
+    SensorQMI8658::LPF_MODE_3        // LPF_MODE_0 (2.66% of ODR) / LPF_MODE_1 (3.63% of ODR) / LPF_MODE_2 (5.39% of ODR) / LPF_MODE_3 (13.37% of ODR)
+  );                                 // selfTest enable
 
 
   // In 6DOF mode (accelerometer and gyroscope are both enabled),
@@ -49,33 +49,43 @@ void QMI8658_Init() {
 
 
 void QMI8658_Loop() {
-  if (QMI.getDataReady()) {
-    if (QMI.getAccelerometer(Accel.x, Accel.y, Accel.z)) {
-      // printf("ACCEL:  %f  %f  %f\r\n",Accel.x,Accel.y,Accel.z);
-    }
+  // if (QMI.getDataReady()) {
+  //   if (QMI.getAccelerometer(Accel.x, Accel.y, Accel.z)) {
+  //     // printf("ACCEL:  %f  %f  %f\r\n",Accel.x,Accel.y,Accel.z);
+  //   }
 
-    if (QMI.getGyroscope(Gyro.x, Gyro.y, Gyro.z)) {
-      // printf("GYRO:  %f  %f  %f\r\n",Gyro.x,Gyro.y,Gyro.z);
-    }
-    // printf("\t\t>      %lu   %.2f ℃\n", QMI.getTimestamp(), QMI.getTemperature_C());
-    // printf("\r\n");
-  }
+  //   if (QMI.getGyroscope(Gyro.x, Gyro.y, Gyro.z)) {
+  //     // printf("GYRO:  %f  %f  %f\r\n",Gyro.x,Gyro.y,Gyro.z);
+  //   }
+  //   // printf("\t\t>      %lu   %.2f ℃\n", QMI.getTimestamp(), QMI.getTemperature_C());
+  //   // printf("\r\n");
+  // }
+
+  if (!QMI.getDataReady()) return;
+
+  QMI.getAccelerometer(Accel.x, Accel.y, Accel.z);
+  QMI.getGyroscope(Gyro.x, Gyro.y, Gyro.z);
 }
 
-Direction rota() {
-  if (Accel.x > 0) {
-    if (Accel.y > 0) {
-      dir = (Accel.x - Accel.y > 0) ? Direction::UP : Direction::RIGHT;
-    } else {
-      dir = (Accel.x + Accel.y > 0) ? Direction::UP : Direction::LEFT;
-    }
+uint8_t rota() {
+  // if (Accel.x > 0) {
+  //   if (Accel.y > 0) {
+  //     dir = (Accel.x - Accel.y > 0) ? Direction::UP : Direction::RIGHT;
+  //   } else {
+  //     dir = (Accel.x + Accel.y > 0) ? Direction::UP : Direction::LEFT;
+  //   }
 
+  // } else {
+  //   if (Accel.y > 0) {
+  //     dir = (Accel.x + Accel.y < 0) ? Direction::DOWN : Direction::RIGHT;
+  //   } else {
+  //     dir = (0 - Accel.x + Accel.y < 0) ? Direction::LEFT : Direction::DOWN;
+  //   }
+  // }
+  // return dir;
+  if (abs(Accel.x) > abs(Accel.y)) {
+    return Accel.x > 0 ? 0 : 2;
   } else {
-    if (Accel.y > 0) {
-      dir = (Accel.x + Accel.y < 0) ? Direction::DOWN : Direction::RIGHT;
-    } else {
-      dir = (0 - Accel.x + Accel.y < 0) ? Direction::LEFT : Direction::DOWN;
-    }
+    return Accel.y > 0 ? 1 : 3;
   }
-  return dir;
 }

@@ -7,7 +7,10 @@
 一个联网二进制时钟, 添加重力感应旋转功能, 
 点位示意图:  
 
-![image](https://github.com/user-attachments/assets/54d14f78-e749-4055-92d5-0c71a0e7f5a2)  
+
+											
+<img width="445" height="303" alt="image" src="https://github.com/user-attachments/assets/aa878a15-233c-4ff2-a8fc-454d195d1a21" />
+
 PS: 初学者代码不优雅请勿喷.  
-PS2: **实测运行大概两天之后出现BUG 时钟显示有问题**  
+PS2: ~~**实测运行大概两天之后出现BUG 时钟显示有问题**~~  
 PS3: 时间有误差, 误差1秒内,具体原因可看代码  

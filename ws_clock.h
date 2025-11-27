@@ -8,6 +8,12 @@
 #define Matrix_Row 8
 #define Matrix_Col 8
 #define RGB_COUNT 64
+#define Hour_OFFSET 0
+#define MIN_OFFSET 3
+#define SEC_OFFSET 6
+#define CLOCK_HIGH 4
+#define CLOCK_WIGHT 2
+
 
 // struct LED{
 //   uint8_t color[3];
@@ -32,4 +38,5 @@ static void set_min(uint8_t min);
 static void set_sec(uint8_t sec);
 // void set_time(String time);
 void set_Clock(uint8_t t_hour,uint8_t t_min,uint8_t t_sec);
-static void binary_pixel(uint8_t num, bool time[][2]);
+static bool (* binary_pixel(uint8_t num))[2];
+static void set_num_display(bool time[][CLOCK_WIGHT], uint8_t offset);
